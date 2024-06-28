@@ -1,0 +1,22 @@
+VCD info: dumpfile ./vcd/regfile.vcd opened for output.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[0] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[1] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[2] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[3] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[4] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[5] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[6] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[7] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[8] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[9] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[10] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[11] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[12] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[13] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[14] will conflict with an escaped identifier.
+VCD warning: array word regfile_tb.u_regfile.rf_arr[15] will conflict with an escaped identifier.
+VCD warning: ignoring signals in previously scanned scope regfile_tb.
+VCD warning: ignoring signals in previously scanned scope regfile_tb.u_regfile.
+VCD warning: ignoring signals in previously scanned scope regfile_tb.init.
+VCD warning: ignoring signals in previously scanned scope regfile_tb.regRD.
+VCD warning: ignoring signals in previously scanned scope regfile_tb.regWR.

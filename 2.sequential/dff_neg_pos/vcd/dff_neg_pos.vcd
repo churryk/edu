@@ -1,0 +1,123 @@
+$date
+	Thu Jun 27 20:21:09 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module dff_neg_pos_tb $end
+$var wire 1 ! o_data_2 $end
+$var wire 1 " o_data_1 $end
+$var reg 1 # clk $end
+$var reg 1 $ i_data $end
+$var reg 1 % i_rstn $end
+$var reg 256 & vcd_file [255:0] $end
+$var integer 32 ' i [31:0] $end
+$var integer 32 ( j [31:0] $end
+$scope module u_dff_neg $end
+$var wire 1 # clk $end
+$var wire 1 $ i_data $end
+$var wire 1 % i_rstn $end
+$var reg 1 " o_data $end
+$upscope $end
+$scope module u_dff_pos $end
+$var wire 1 # clk $end
+$var wire 1 $ i_data $end
+$var wire 1 % i_rstn $end
+$var reg 1 ! o_data $end
+$upscope $end
+$scope task init $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b110 (
+b0 '
+b1011100010111101110110011000110110010000101111011001000110011001100110010111110110111001100101011001110101111101110000011011110111001100101110011101100110001101100100 &
+0%
+0$
+0#
+0"
+x!
+$end
+#5
+0!
+1#
+#6
+1!
+1%
+1$
+#10
+b10 (
+b1 '
+0#
+#15
+1"
+1#
+#20
+0#
+b10 '
+#22
+0$
+#25
+0"
+0!
+1#
+#30
+0#
+b101 (
+b11 '
+#35
+1#
+#40
+0#
+b1010 (
+b100 '
+#45
+1#
+#50
+b100 (
+b101 '
+0#
+#54
+0%
+1$
+#55
+1#
+#60
+0#
+b1010 (
+b110 '
+#65
+1#
+#70
+b1000 (
+b111 '
+0#
+#75
+1#
+#78
+0$
+#80
+b100 (
+b1000 '
+0#
+#84
+1$
+#85
+1#
+#90
+0#
+b1001 '
+#94
+1!
+1%
+#95
+1"
+1#
+#100
+0#
+b1010 '
