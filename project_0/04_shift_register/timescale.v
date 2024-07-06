@@ -1,0 +1,1 @@
+/home/kmc/templates/verilog/timescale.v
