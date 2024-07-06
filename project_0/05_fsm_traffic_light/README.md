@@ -27,11 +27,11 @@ module mode_fsm
 	always @(posedge i_clk) begin
 		if (mode == 0) begin
 			if (i_perad == 1) mode <= #1 1'b1;		// s1
-			else			  mode <= #1 1'b0;	
+			else		mode <= #1 1'b0;	
 		end
 		else if (mode == 1) begin
 			if (i_stop  == 1) mode <= #1 1'b0;		// s0
-			else 	  	      mode <= #1 1'b1;
+			else		mode <= #1 1'b1;
 		end
 	end
 
@@ -42,13 +42,13 @@ module light_fsm
 (
 	output reg	[8*6-1:0]	o_la,
 	output reg	[8*6-1:0]	o_lb,
-	input					mode,
-	input					i_ta,
-	input					i_tb,
-	input					i_clk,
-	input					i_rstn
+	input				mode,
+	input				i_ta,
+	input				i_tb,
+	input				i_clk,
+	input				i_rstn
 );
-	reg	   		[1:0]		state;
+	reg	  	[1:0]		state;
 
 	always @(*) begin
 		if (!i_rstn) begin
@@ -103,15 +103,15 @@ endmodule
 
 module traffic_light_controller_tb;
 
-	wire				mode;
+	wire			mode;
 	wire [8*6-1:0]		o_la;
 	wire [8*6-1:0]		o_lb;
-	reg					i_ta;
-	reg					i_tb;
-	reg					i_stop;
-	reg					i_perad;
-	reg					i_clk;
-	reg					i_rstn;
+	reg			i_ta;
+	reg			i_tb;
+	reg			i_stop;
+	reg			i_perad;
+	reg			i_clk;
+	reg			i_rstn;
 
 	mode_fsm
 	u_mode_fsm

@@ -14,9 +14,9 @@ module barrel_shift
 	parameter	BIT		= 8
 )
 (
-	output 		[BIT-1:0]			o_data,
-	input		[BIT-1:0]			i_data,
-	input							sel_left,
+	output 		[BIT-1:0]	o_data,
+	input		[BIT-1:0]	i_data,
+	input				sel_left,
 	input		[$clog2(BIT)-1:0]	i_shifter
 );
 
@@ -30,14 +30,14 @@ module barrel_shift_compare
 	parameter	BIT		= 8
 )
 (
-	output 		[BIT-1:0]			o_data,
-	input		[BIT-1:0]			i_data,
-	input							sel_left,
+	output 		[BIT-1:0]		o_data,
+	input		[BIT-1:0]		i_data,
+	input					sel_left,
 	input		[$clog2(BIT)-1:0]	i_shifter
 );
-	wire		[BIT-1:0]			i_start_data;
-	wire		[BIT-1:0]			first_data;
-	wire  		[BIT-1:0]			mid_data;
+	wire		[BIT-1:0]		i_start_data;
+	wire		[BIT-1:0]		first_data;
+	wire  		[BIT-1:0]		mid_data;
 	wire		[$clog2(BIT)-1:0]	sel;
 
 	assign	i_start_data[0]	= (sel_left == 1) ? i_data[1] : i_data[0];
@@ -95,12 +95,12 @@ endmodule
 
 module barrel_shift_tb;
 
-	wire	[`BIT-1:0]			o_data;
-	wire	[`BIT-1:0]			o_data_compare;
-	reg		[`BIT-1:0]			i_data;
-	reg							sel_left;
-	reg		[$clog2(`BIT)-1:0]	i_shifter;
-	reg							i_clk;
+	wire	[`BIT-1:0]		o_data;
+	wire	[`BIT-1:0]		o_data_compare;
+	reg	[`BIT-1:0]		i_data;
+	reg				sel_left;
+	reg	[$clog2(`BIT)-1:0]	i_shifter;
+	reg					i_clk;
 
 	barrel_shift
 	#(
@@ -141,7 +141,7 @@ module barrel_shift_tb;
 	integer	i;
 	task test;
 		input	[$clog2(`BIT)-1:0]	i_sel_left;
-		input	[`BIT-1:0]			i_task_data;
+		input	[`BIT-1:0]		i_task_data;
 		begin
 			i_data		= i_task_data;
 			i_shifter	= 3'h0;

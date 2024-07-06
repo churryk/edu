@@ -18,7 +18,7 @@
 module alu
 (
 	output reg	[31:0]	o_data_y,
-	output 				o_data_c,
+	output 			o_data_c,
 	input		[31:0]	i_data_a,
 	input		[31:0]	i_data_b,
 	input		[2:0]	i_func
@@ -27,7 +27,7 @@ module alu
 	wire 	 	[31:0]	data_sum;
 	
 
-	assign	data_b_n	= (i_func[2] == 1)	 ? ~i_data_b : i_data_b;
+	assign	data_b_n	= (i_func[2] == 1) ? ~i_data_b : i_data_b;
 
 	assign	{o_data_c, data_sum}	= i_data_a + data_b_n;
 
@@ -60,10 +60,10 @@ module alu_tb;
 
 	wire	[31:0]		o_data_y;
 	wire				o_data_c;
-	reg		[31:0]		i_data_a;
-	reg		[31:0]		i_data_b;
-	reg		[2:0]		i_func;
-	reg					i_clk;
+	reg	[31:0]		i_data_a;
+	reg	[31:0]		i_data_b;
+	reg	[2:0]		i_func;
+	reg			i_clk;
 
 	alu
 	u_alu

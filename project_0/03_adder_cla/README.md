@@ -14,11 +14,11 @@ module carry_lookahead_adder
 	parameter	BIT		= 32
 )
 (
-	output		[BIT-1:0]			o_data_s,
-	output							o_carry,
-	input		[BIT-1:0]			i_data_a,
-	input		[BIT-1:0]			i_data_b,
-	input							i_carry
+	output		[BIT-1:0]		o_data_s,
+	output					o_carry,
+	input		[BIT-1:0]		i_data_a,
+	input		[BIT-1:0]		i_data_b,
+	input					i_carry
 );
 	wire		[(BIT/4)-1:0]		m_data_c;
 
@@ -50,11 +50,11 @@ endmodule
 
 module cla_block
 (
-	output				o_carry,
+	output			o_carry,
 	output	[3:0]		o_data_s,
 	input	[3:0]		i_data_a,
 	input	[3:0]		i_data_b,
-	input				i_carry
+	input			i_carry
 );
 	wire	[2:0]		m_data_c;
 	wire	[3:0]		g;
@@ -70,15 +70,15 @@ module cla_block
 	assign p[2]		= i_data_a[2] | i_data_b[2];
 	assign p[3]		= i_data_a[3] | i_data_b[3];
 
-	assign m_data_c[0]		= g[0] | (p[0] & i_carry);
-	assign m_data_c[1]		= g[1] | (p[1] & m_data_c[0]);
-	assign m_data_c[2]		= g[2] | (p[2] & m_data_c[1]);
-	assign o_carry			= g[3] | (p[3] & m_data_c[2]);
+	assign m_data_c[0]	= g[0] | (p[0] & i_carry);
+	assign m_data_c[1]	= g[1] | (p[1] & m_data_c[0]);
+	assign m_data_c[2]	= g[2] | (p[2] & m_data_c[1]);
+	assign o_carry		= g[3] | (p[3] & m_data_c[2]);
 
-	assign o_data_s[0]		= (i_data_a[0] ^ i_data_b[0]) ^ i_carry;
-	assign o_data_s[1]		= (i_data_a[1] ^ i_data_b[1]) ^ m_data_c[0];
-	assign o_data_s[2]		= (i_data_a[2] ^ i_data_b[2]) ^ m_data_c[1];
-	assign o_data_s[3]		= (i_data_a[3] ^ i_data_b[3]) ^ m_data_c[2];
+	assign o_data_s[0]	= (i_data_a[0] ^ i_data_b[0]) ^ i_carry;
+	assign o_data_s[1]	= (i_data_a[1] ^ i_data_b[1]) ^ m_data_c[0];
+	assign o_data_s[2]	= (i_data_a[2] ^ i_data_b[2]) ^ m_data_c[1];
+	assign o_data_s[3]	= (i_data_a[3] ^ i_data_b[3]) ^ m_data_c[2];
 
 
 endmodule
@@ -89,10 +89,10 @@ module compare_adder
 )
 (
 	output	[BIT-1:0]		o_data_s,
-	output					o_carry,
+	output				o_carry,
 	input	[BIT-1:0]		i_data_a,
 	input	[BIT-1:0]		i_data_b,
-	input					i_carry
+	input				i_carry
 );
 
 	assign {o_carry, o_data_s} = i_data_a + i_data_b + i_carry;
@@ -115,11 +115,11 @@ endmodule
 module carry_lookahead_adder_tb;
 
 	wire	[31:0]	o_data_s;
-	wire			o_carry;
-	reg		[31:0]	i_data_a;
-	reg		[31:0]	i_data_b;
-	reg				i_carry;
-	reg				i_clk;
+	wire		o_carry;
+	reg	[31:0]	i_data_a;
+	reg	[31:0]	i_data_b;
+	reg			i_carry;
+	reg			i_clk;
 
 	carry_lookahead_adder
 	#(
@@ -135,7 +135,7 @@ module carry_lookahead_adder_tb;
 	);
 
 	wire	[31:0]	o_data_s_comp;
-	wire			o_carry_comp;
+	wire		o_carry_comp;
 
 	compare_adder
 	#(
@@ -151,10 +151,10 @@ module carry_lookahead_adder_tb;
 	);
 
 	reg		[32:0]	vo_data		[0:`VEC-1];
-	reg				vo_carry	[0:`VEC-1];
+	reg			vo_carry	[0:`VEC-1];
 	reg		[32:0]	vi_data_a	[0:`VEC-1];
 	reg		[32:0]	vi_data_b	[0:`VEC-1];
-	reg				vi_carry	[0:`VEC-1];
+	reg			vi_carry	[0:`VEC-1];
 
 	initial begin
 		$readmemb("./vec/vo_data.vec",		vo_data);

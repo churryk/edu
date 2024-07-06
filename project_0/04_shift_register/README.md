@@ -13,19 +13,19 @@
 module shift_register
 (
 	output reg	[7:0]	o_parrel,
-	output reg			o_serial,
-	input				i_serial,
+	output reg		o_serial,
+	input			i_serial,
 	input		[7:0]	i_parrel,
-	input				load,
-	input				i_clk,
-	input				i_rstn
+	input			load,
+	input			i_clk,
+	input			i_rstn
 );
-	reg			[7:0]	m_data;
+	reg		[7:0]	m_data;
 
 	always @(*) begin
 		if(!i_rstn) begin
-			o_parrel	<=  8'h0;
-			m_data		<=	8'h0;
+			o_parrel	<= 8'h0;
+			m_data		<= 8'h0;
 		end
 	end
 
@@ -56,12 +56,12 @@ module shift_register_tb;
 
 
 	wire	[7:0]	o_parrel;
-	wire			o_serial;
-	reg				i_serial;
-	reg		[7:0]	i_parrel;
-	reg				load;
-	reg				i_clk;
-	reg				i_rstn;
+	wire		o_serial;
+	reg		i_serial;
+	reg	[7:0]	i_parrel;
+	reg		load;
+	reg		i_clk;
+	reg		i_rstn;
 
 	shift_register
 	u_shift_register
@@ -98,8 +98,8 @@ module shift_register_tb;
 			i_parrel	= data;
 			@(posedge i_clk); #1;
 			for (i=0; i<7; i++) begin
-			load		= 1'b0;
-			i_serial	= data[i+1];
+				load		= 1'b0;
+				i_serial	= data[i+1];
 			@(posedge i_clk); #1;
 			end
 			repeat(2) @(posedge i_clk); #1;
@@ -110,8 +110,8 @@ module shift_register_tb;
 	task test_reset;
 		begin
 			for (j=0; j<8; j++) begin
-			i_serial	<= 1'h0;
-			@(posedge i_clk);
+				i_serial	<= 1'h0;
+				@(posedge i_clk);
 			end
 		end
 	endtask

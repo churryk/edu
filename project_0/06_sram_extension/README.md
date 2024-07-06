@@ -25,7 +25,7 @@ module spsram
 );
 
 // mem wr
-	reg			[BW_DATA-1:0]	mem[0:2**BW_ADDR-1];
+	reg		[BW_DATA-1:0]	mem[0:2**BW_ADDR-1];
 	`ifdef	MEM_INIT
 		initial begin
 			$readmemb(MIF_FILE, mem);
@@ -42,8 +42,8 @@ module spsram
 
 // mem rd
 	`ifdef	SPSRAM_ASYNC
-		assign o_data 	=	!i_oen			  ?	'bz			:
-							(i_cen && !i_wen) ?	mem[i_addr]	: 'bx;
+		assign o_data 	=	!i_oen	  ?	'bz			:
+				(i_cen && !i_wen) ?	mem[i_addr]	: 'bx;
 
 	`else
 		reg		[BW_DATA-1:0]	o_data;
@@ -108,10 +108,10 @@ module spsram_tb;
 // DUT Signals & Instantiation
 // ========================================
 	wire	[63:0]		o_data;
-	reg		[63:0]		i_data;
-	reg		[5:0]		i_addr;
-	reg					i_wen;
-	reg					i_clk;
+	reg	[63:0]		i_data;
+	reg	[5:0]		i_addr;
+	reg			i_wen;
+	reg			i_clk;
 	
 spsram_final u_spsram_final( o_data,  i_data, i_addr, i_wen, i_clk);
 
@@ -124,7 +124,7 @@ spsram_final u_spsram_final( o_data,  i_data, i_addr, i_wen, i_clk);
 // ========================================
 // Task
 // ========================================
-	reg		[4*32-1:0]	taskState;
+	reg	[4*32-1:0]	taskState;
 
 	task init;
 		begin
