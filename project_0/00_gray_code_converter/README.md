@@ -90,11 +90,14 @@ endmodule
 
 module gray_code_converter_tb;
 	
+// ==================================================================
+// DUT Signals & Instantiation
+// ==================================================================
 	wire	[`BIT-1:0]	o_gray;
 	wire	[`BIT-1:0]	o_bin;
-	reg	[`BIT-1:0]	i_bin;
-	reg			i_clk;
-	reg			i_rstn;
+	reg		[`BIT-1:0]	i_bin;
+	reg					i_clk;
+	reg					i_rstn;
 
 	bin_to_gray
 	#(
@@ -114,9 +117,15 @@ module gray_code_converter_tb;
 		.i_gray		(o_gray)
 	);
 
+// ==================================================================
+// Clock
+// ==================================================================
 	always	#(500/`CLKFREQ)		i_clk = ~i_clk;
 
 
+// ==================================================================
+// Task
+// ==================================================================
 	task init;
 		begin
 			i_bin	=	0;
@@ -127,6 +136,9 @@ module gray_code_converter_tb;
 	endtask
 
 
+// ==================================================================
+// Test Stimulus
+// ==================================================================
 	integer	i;
 	initial begin
 		init();
@@ -139,6 +151,9 @@ module gray_code_converter_tb;
 		$finish;
 	end
 
+// ==================================================================
+// Dump VCD
+// ==================================================================
 	reg [8*32-1:0] vcd_file;
 	initial begin
 		if($value$plusargs("vcd_file=%s", vcd_file)) begin

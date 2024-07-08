@@ -8,6 +8,9 @@
 `define GENER
 module carry_lookahead_adder_tb;
 
+// ==================================================================
+// DUT Signals & Instantiation
+// ==================================================================
 	wire	[`BIT-1:0]	o_data_s;
 	wire				o_carry;
 	reg		[`BIT-1:0]	i_data_a;
@@ -44,6 +47,9 @@ module carry_lookahead_adder_tb;
 		.i_carry	(i_carry     	)
 	);
 
+// ==================================================================
+// TestVector
+// ==================================================================
 	reg		[`BIT:0]	test_vec	[0:`VEC-1];
 	reg		[`BIT:0]	vo_data_s	[0:`VEC-1];
 	reg		  	 		vo_carry	[0:`VEC-1];
@@ -59,6 +65,10 @@ module carry_lookahead_adder_tb;
 		$readmemb("./vec_test/i_data_b.vec",	vi_data_b);
 		$readmemb("./vec_test/i_carry.vec",		vi_carry);
 	end
+
+// ==================================================================
+// Clock
+// ==================================================================
 	always	#(500/`CLKFREQ)		i_clk = ~i_clk;
 
 	task init;
@@ -71,6 +81,9 @@ module carry_lookahead_adder_tb;
 		end
 	endtask
 
+// ==================================================================
+// Task
+// ==================================================================
 	task vectest;
 		input	[$clog2(`VEC)-1:0]	i;
 		begin
@@ -86,6 +99,9 @@ module carry_lookahead_adder_tb;
 		end
 	endtask
 
+// ==================================================================
+// Test Stimulus
+// ==================================================================
 	integer	i;
 	initial begin
 		init();
@@ -99,6 +115,9 @@ module carry_lookahead_adder_tb;
 		$finish;
 	end
 
+// ==================================================================
+// Dump VCD
+// ==================================================================
 	reg [8*32-1:0] vcd_file;
 	initial begin
 		if($value$plusargs("vcd_file=%s", vcd_file)) begin

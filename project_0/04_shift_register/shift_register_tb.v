@@ -1,19 +1,26 @@
 `define CLKFREQ		100
 `define SIMCYCLE	10
+`define	BIT			8
 
 `include "shift_register.v"
 
 module shift_register_tb;
 
-	wire	[7:0]	o_parrel;
-	wire			o_serial;
-	reg				i_serial;
-	reg		[7:0]	i_parrel;
-	reg				load;
-	reg				i_clk;
-	reg				i_rstn;
+// ==================================================================
+// DUT Signals & Instantiation
+// ==================================================================
+	wire	[`BIT-1:0]	o_parrel;
+	wire				o_serial;
+	reg					i_serial;
+	reg		[`BIT-1:0]	i_parrel;
+	reg					load;
+	reg					i_clk;
+	reg					i_rstn;
 
 	shift_register
+	#(
+		.BIT			(`BIT)
+	)
 	u_shift_register
 	(
 		.o_parrel		(o_parrel),
@@ -25,8 +32,14 @@ module shift_register_tb;
 		.i_rstn			(i_rstn)
 	);
 
+// ==================================================================
+// Clock
+// ==================================================================
 	always	#(500/`CLKFREQ)		i_clk = ~i_clk;
 
+// ==================================================================
+// Task
+// ==================================================================
 	task init;
 		begin
 			i_serial	=	0;
@@ -40,14 +53,14 @@ module shift_register_tb;
 
 	integer i;
 	task test_load;
-		input	[7:0]	data;
+		input	[`BIT-1:0]	data;
 		begin
 			#1;
 			load		= 1'b1;
 			i_serial	= data[0];
 			i_parrel	= data;
 			@(posedge i_clk); #1;
-			for (i=0; i<7; i++) begin
+			for (i=0; i<`BIT-1; i++) begin
 			load		= 1'b0;
 			i_serial	= data[i+1];
 			@(posedge i_clk); #1;
@@ -59,13 +72,16 @@ module shift_register_tb;
 	integer j;
 	task test_reset;
 		begin
-			for (j=0; j<8; j++) begin
+			for (j=0; j<`BIT; j++) begin
 			i_serial	<= 1'h0;
 			@(posedge i_clk);
 			end
 		end
 	endtask
 
+// ==================================================================
+// Test Stimulus
+// ==================================================================
 	initial begin
 		init();
 		
@@ -78,6 +94,9 @@ module shift_register_tb;
 		$finish;
 	end
 
+// ==================================================================
+// Dump VCD
+// ==================================================================
 	reg [8*32-1:0] vcd_file;
 	initial begin
 		if($value$plusargs("vcd_file=%s", vcd_file)) begin

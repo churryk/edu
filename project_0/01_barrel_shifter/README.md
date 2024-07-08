@@ -86,7 +86,6 @@ endmodule
 
 ### Testbench
 ```verilog
-
 `define CLKFREQ		100
 `define SIMCYCLE	7
 `define BIT			8
@@ -95,12 +94,15 @@ endmodule
 
 module barrel_shift_tb;
 
-	wire	[`BIT-1:0]		o_data;
-	wire	[`BIT-1:0]		o_data_compare;
-	reg	[`BIT-1:0]		i_data;
-	reg				sel_left;
-	reg	[$clog2(`BIT)-1:0]	i_shifter;
-	reg					i_clk;
+// ==================================================================
+// DUT Signals & Instantiation
+// ==================================================================
+	wire	[`BIT-1:0]			o_data;
+	wire	[`BIT-1:0]			o_data_compare;
+	reg		[`BIT-1:0]			i_data;
+	reg							sel_left;
+	reg		[$clog2(`BIT)-1:0]	i_shifter;
+	reg							i_clk;
 
 	barrel_shift
 	#(
@@ -126,8 +128,14 @@ module barrel_shift_tb;
 		.i_shifter	(i_shifter		)
 	);
 
+// ==================================================================
+// Clock
+// ==================================================================
 	always	#(500/`CLKFREQ)		i_clk = ~i_clk;
 										
+// ==================================================================
+// Task
+// ==================================================================
 	task init;
 		begin
 			i_data		= 0;
@@ -141,7 +149,7 @@ module barrel_shift_tb;
 	integer	i;
 	task test;
 		input	[$clog2(`BIT)-1:0]	i_sel_left;
-		input	[`BIT-1:0]		i_task_data;
+		input	[`BIT-1:0]			i_task_data;
 		begin
 			i_data		= i_task_data;
 			i_shifter	= 3'h0;
@@ -154,6 +162,9 @@ module barrel_shift_tb;
 		end
 	endtask
 
+// ==================================================================
+// Test Stimulus
+// ==================================================================
 	initial begin
 		init();
 
@@ -166,6 +177,9 @@ module barrel_shift_tb;
 		$finish;
 	end
 
+// ==================================================================
+// Dump VCD
+// ==================================================================
 	reg [8*32-1:0] vcd_file;
 	initial begin
 		if($value$plusargs("vcd_file=%s", vcd_file)) begin

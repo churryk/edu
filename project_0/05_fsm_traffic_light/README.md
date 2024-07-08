@@ -103,15 +103,18 @@ endmodule
 
 module traffic_light_controller_tb;
 
-	wire			mode;
+// ==================================================================
+// DUT Signals & Instantiation
+// ==================================================================
+	wire				mode;
 	wire [8*6-1:0]		o_la;
 	wire [8*6-1:0]		o_lb;
-	reg			i_ta;
-	reg			i_tb;
-	reg			i_stop;
-	reg			i_perad;
-	reg			i_clk;
-	reg			i_rstn;
+	reg					i_ta;
+	reg					i_tb;
+	reg					i_stop;
+	reg					i_perad;
+	reg					i_clk;
+	reg					i_rstn;
 
 	mode_fsm
 	u_mode_fsm
@@ -135,8 +138,14 @@ module traffic_light_controller_tb;
 		.i_rstn		(i_rstn	)
 	);	
 
+// ==================================================================
+// Clock
+// ==================================================================
 	always	#(1000/`CLKFREQ)		i_clk = ~i_clk;
 
+// ==================================================================
+// Task
+// ==================================================================
 	task init;
 		begin
 		i_ta		= 0;
@@ -149,6 +158,9 @@ module traffic_light_controller_tb;
 		end
 	endtask
 
+// ==================================================================
+// Test Stimulus
+// ==================================================================
 	integer i;
 	initial begin
 		init();
@@ -167,6 +179,9 @@ module traffic_light_controller_tb;
 		
 	end
 
+// ==================================================================
+// Dump VCD
+// ==================================================================
 	reg [8*32-1:0] vcd_file;
 	initial begin
 		if($value$plusargs("vcd_file=%s", vcd_file)) begin
