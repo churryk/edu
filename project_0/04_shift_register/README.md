@@ -11,16 +11,19 @@
 ```verilog
 
 module shift_register
+#(
+	parameter	BIT		= 8
+)
 (
-	output reg	[7:0]	o_parrel,
+	output reg	[BIT-1:0]	o_parrel,
 	output reg		o_serial,
 	input			i_serial,
-	input		[7:0]	i_parrel,
+	input		[BIT-1:0]	i_parrel,
 	input			load,
 	input			i_clk,
 	input			i_rstn
 );
-	reg		[7:0]	m_data;
+	reg			[BIT-1:0]	m_data;
 
 	always @(*) begin
 		if(!i_rstn) begin
