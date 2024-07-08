@@ -114,10 +114,10 @@ endmodule
 `define GENER
 module carry_lookahead_adder_tb;
 
-	wire	[31:0]	o_data_s;
+	wire	[`BIT-1:0]	o_data_s;
 	wire		o_carry;
-	reg	[31:0]	i_data_a;
-	reg	[31:0]	i_data_b;
+	reg	[`BIT-1:0]	i_data_a;
+	reg	[`BIT-1:0]	i_data_b;
 	reg			i_carry;
 	reg			i_clk;
 
@@ -150,10 +150,10 @@ module carry_lookahead_adder_tb;
 		.i_carry	(i_carry     	)
 	);
 
-	reg		[32:0]	vo_data		[0:`VEC-1];
+	reg		[`BIT-1:0]	vo_data		[0:`VEC-1];
 	reg			vo_carry	[0:`VEC-1];
-	reg		[32:0]	vi_data_a	[0:`VEC-1];
-	reg		[32:0]	vi_data_b	[0:`VEC-1];
+	reg		[`BIT-1:0]	vi_data_a	[0:`VEC-1];
+	reg		[`BIT-1:0]	vi_data_b	[0:`VEC-1];
 	reg			vi_carry	[0:`VEC-1];
 
 	initial begin
