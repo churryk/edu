@@ -5,7 +5,7 @@ import sys
 import random
 
 os.getcwd()
-os.makedirs('vec_test', exist_ok=True)
+os.system('mkdir -p vec')
 
 file_o_data_s	= './vec_test/o_data_s.vec'
 file_o_carry    = './vec_test/o_carry.vec'
@@ -13,41 +13,43 @@ file_i_data_a   = './vec_test/i_data_a.vec'
 file_i_data_b   = './vec_test/i_data_b.vec'
 file_i_carry    = './vec_test/i_carry.vec'
 
-with open(file_o_data_s, 'w') as fh_o_data_s, \
-     open(file_o_carry , 'w') as fh_o_carry, \
-     open(file_i_data_a, 'w') as fh_i_data_a, \
-     open(file_i_data_b, 'w') as fh_i_data_b, \
-     open(file_i_carry , 'w') as fh_i_carry:
+fh_o_data_s		= open(file_o_data_s,	'w')
+fh_o_carry      = open(file_o_carry,	'w')
+fh_i_data_a     = open(file_i_data_a,	'w')
+fh_i_data_b     = open(file_i_data_b,	'w')
+fh_i_carry      = open(file_i_carry,	'w')
 
-    simcycle    = 10
-    bit         = 32 
+simNum      = 10
+bitWidth    = 32 
 
-    for i in range(simcycle):
-        min_int, max_int = 0, (1 << bit) - 1
-        int_a = random.randint(min_int, max_int)
-        int_b = random.randint(min_int, max_int)
-        int_c = random.randint(min_int, 1)
-        int_sum = int_a + int_b + int_c
-
-        bin_a = format(int_a, f'0{bit}b')
-        bin_b = format(int_b, f'0{bit}b')
-        bin_c = format(int_c, '01b')
-        bin_sum = format(int_sum, f'0{bit+1}b')
-
-        print(f'--------------------------------------------------')
-        print(f'Iteration: {i}')
-        print(f'--------------------------------------------------')
-        print(f'A   : {bin_a.rjust(bit+1)}')
-        print(f'B   : {bin_b.rjust(bit+1)}')
-        print(f'C   : {bin_c.rjust(bit+1)}')
-        print(f'SUM : {bin_sum.rjust(bit+1)}')
-        print(f'--------------------------------------------------')
-
-        fh_o_data_s.write(bin_sum[-bit:] + '\n')
-        fh_o_carry.write(bin_sum[0] + '\n')
-        fh_i_data_a.write(bin_a + '\n')
-        fh_i_data_b.write(bin_b + '\n')
-        fh_i_carry.write(bin_c + '\n')
+for n in range(simNum):
+	intMIN, intMAX = 0, pow(2,bitWidth)-1
+	intA    = random.randint(intMIN, intMAX)
+	intB    = random.randint(intMIN, intMAX)
+	intC    = random.randint(intMIN, 1)
+	intSUM  = intA + intB + intC
+	binA	= bin(intA	)[2:].rjust(bitWidth,'0')
+	binB	= bin(intB  )[2:].rjust(bitWidth,'0')
+	binC	= bin(intC  )[2:].rjust(1, '0')
+	binSUM  = bin(intSUM)[2:].rjust(bitWidth+1,'0')
+	print('--------------------------------------------------')
+	print('Iteration: %s'%(n))
+	print('--------------------------------------------------')
+	print('A   : %33s'%(binA))
+	print('B   : %33s'%(binB))
+	print('C   : %33s'%(binC))
+	print('SUM : %33s'%(binSUM))
+	print('--------------------------------------------------')
+	fh_o_data_s.write(binSUM[1:bitWidth+1] + '\n')
+	fh_o_carry .write(binSUM[0] + '\n')
+	fh_i_data_a.write(binA + '\n')
+	fh_i_data_b.write(binB + '\n')
+	fh_i_carry .write(binC + '\n')
+fh_o_data_s.close()
+fh_o_carry .close()
+fh_i_data_a.close()
+fh_i_data_b.close()
+fh_i_carry .close()
 
 
 

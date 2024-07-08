@@ -156,7 +156,6 @@ module carry_lookahead_adder_tb;
 // ==================================================================
 // TestVector
 // ==================================================================
-	reg		[`BIT:0]	test_vec	[0:`VEC-1];
 	reg		[`BIT:0]	vo_data_s	[0:`VEC-1];
 	reg		  	 		vo_carry	[0:`VEC-1];
 	reg		[`BIT:0]	vi_data_a	[0:`VEC-1];
@@ -164,7 +163,6 @@ module carry_lookahead_adder_tb;
 	reg					vi_carry	[0:`VEC-1];
 
 	initial begin
-		$readmemb("./test_vec.py",				test_vec);
 		$readmemb("./vec_test/o_data.vec",		vo_data_s);
 		$readmemb("./vec_test/o_carry.vec",		vo_carry);
 		$readmemb("./vec_test/i_data_a.vec",	vi_data_a);
@@ -177,31 +175,42 @@ module carry_lookahead_adder_tb;
 // ==================================================================
 	always	#(500/`CLKFREQ)		i_clk = ~i_clk;
 
+// ==================================================================
+// Task
+// ==================================================================
+	reg [8*32-1:0] 	taskState;
+	reg 			err;
+
 	task init;
-		begin
+		begin			
+			taskState	= "Init";
 			i_data_a	=	0;
 			i_data_b	=	0;
 			i_carry		=	0;
+			err			=	0;
 			i_clk		=	0;
 			@(posedge i_clk);
 		end
 	endtask
 
-// ==================================================================
-// Task
-// ==================================================================
-	task vectest;
+	task vecInsert;
 		input	[$clog2(`VEC)-1:0]	i;
 		begin
+			$sformat(taskState,	"VEC[%3d]", i);
 			i_data_a		= vi_data_a[i];
 			i_data_b		= vi_data_b[i];
 			i_carry			= vi_carry[i];
-			@(posedge i_clk);
-            if ({o_carry, o_data_s} !== {o_carry_comp, o_data_s_comp}) begin
-                $display("Test failed %d: CLA = %h, CMP = %h", i, {o_carry, o_data_s}, {o_carry_comp, o_data_s_comp});
-            end else begin
-                $display("Test passed %d", i);
-            end
+		end
+	endtask
+
+	task vecVerify;
+		input	[$clog2(`VEC)-1:0]	i;
+		begin
+			#(0.1*1000/`CLKFREQ);
+			if (o_data_s	!= vo_data_s[i]) begin $display("[Idx: %3d] Mismatched o_data_s", i); end
+			if (o_carry		!= vo_carry[i]) begin $display("[Idx: %3d] Mismatched o_carry", i); end
+			if ((o_data_s != vo_data_s[i]) || (o_carry != vo_carry[i])) begin err++; end
+			#(0.9*1000/`CLKFREQ);
 		end
 	endtask
 
@@ -213,8 +222,8 @@ module carry_lookahead_adder_tb;
 		init();
 		
 		for (i=0; i<`SIMCYCLE; i++) begin
-			vectest(i);
-			@(posedge i_clk);
+			vecInsert(i);
+			vecVerify(i);	
 		end
 
 		repeat(2) @(posedge i_clk);
@@ -237,64 +246,9 @@ module carry_lookahead_adder_tb;
 
 
 endmodule
-```
-
-### Testbench
-```python3
-#! /usr/bin/python3
-
-import os
-import sys
-import random
-
-os.getcwd()
-os.makedirs('vec_test', exist_ok=True)
-
-file_o_data_s	= './vec_test/o_data_s.vec'
-file_o_carry    = './vec_test/o_carry.vec'
-file_i_data_a   = './vec_test/i_data_a.vec'
-file_i_data_b   = './vec_test/i_data_b.vec'
-file_i_carry    = './vec_test/i_carry.vec'
-
-with open(file_o_data_s, 'w') as fh_o_data_s, \
-     open(file_o_carry , 'w') as fh_o_carry, \
-     open(file_i_data_a, 'w') as fh_i_data_a, \
-     open(file_i_data_b, 'w') as fh_i_data_b, \
-     open(file_i_carry , 'w') as fh_i_carry:
-
-    simcycle    = 10
-    bit         = 32 
-
-    for i in range(simcycle):
-        min_int, max_int = 0, (1 << bit) - 1
-        int_a = random.randint(min_int, max_int)
-        int_b = random.randint(min_int, max_int)
-        int_c = random.randint(min_int, 1)
-        int_sum = int_a + int_b + int_c
-
-        bin_a = format(int_a, f'0{bit}b')
-        bin_b = format(int_b, f'0{bit}b')
-        bin_c = format(int_c, '01b')
-        bin_sum = format(int_sum, f'0{bit+1}b')
-
-        print(f'--------------------------------------------------')
-        print(f'Iteration: {i}')
-        print(f'--------------------------------------------------')
-        print(f'A   : {bin_a.rjust(bit+1)}')
-        print(f'B   : {bin_b.rjust(bit+1)}')
-        print(f'C   : {bin_c.rjust(bit+1)}')
-        print(f'SUM : {bin_sum.rjust(bit+1)}')
-        print(f'--------------------------------------------------')
-
-        fh_o_data_s.write(bin_sum[-bit:] + '\n')
-        fh_o_carry.write(bin_sum[0] + '\n')
-        fh_i_data_a.write(bin_a + '\n')
-        fh_i_data_b.write(bin_b + '\n')
-        fh_i_carry.write(bin_c + '\n')
 
 ```
 
 ## Simulation Result
 
 ![Waveform0](./test.png)
-![Waveform0](./vectest.PNG)

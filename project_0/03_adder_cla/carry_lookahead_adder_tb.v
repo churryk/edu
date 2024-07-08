@@ -50,7 +50,6 @@ module carry_lookahead_adder_tb;
 // ==================================================================
 // TestVector
 // ==================================================================
-	reg		[`BIT:0]	test_vec	[0:`VEC-1];
 	reg		[`BIT:0]	vo_data_s	[0:`VEC-1];
 	reg		  	 		vo_carry	[0:`VEC-1];
 	reg		[`BIT:0]	vi_data_a	[0:`VEC-1];
@@ -58,7 +57,6 @@ module carry_lookahead_adder_tb;
 	reg					vi_carry	[0:`VEC-1];
 
 	initial begin
-		$readmemb("./test_vec.py",				test_vec);
 		$readmemb("./vec_test/o_data.vec",		vo_data_s);
 		$readmemb("./vec_test/o_carry.vec",		vo_carry);
 		$readmemb("./vec_test/i_data_a.vec",	vi_data_a);
@@ -71,31 +69,42 @@ module carry_lookahead_adder_tb;
 // ==================================================================
 	always	#(500/`CLKFREQ)		i_clk = ~i_clk;
 
+// ==================================================================
+// Task
+// ==================================================================
+	reg [8*32-1:0] 	taskState;
+	reg 			err;
+
 	task init;
-		begin
+		begin			
+			taskState	= "Init";
 			i_data_a	=	0;
 			i_data_b	=	0;
 			i_carry		=	0;
+			err			=	0;
 			i_clk		=	0;
 			@(posedge i_clk);
 		end
 	endtask
 
-// ==================================================================
-// Task
-// ==================================================================
-	task vectest;
+	task vecInsert;
 		input	[$clog2(`VEC)-1:0]	i;
 		begin
+			$sformat(taskState,	"VEC[%3d]", i);
 			i_data_a		= vi_data_a[i];
 			i_data_b		= vi_data_b[i];
 			i_carry			= vi_carry[i];
-			@(posedge i_clk);
-            if ({o_carry, o_data_s} !== {o_carry_comp, o_data_s_comp}) begin
-                $display("Test failed %d: CLA = %h, CMP = %h", i, {o_carry, o_data_s}, {o_carry_comp, o_data_s_comp});
-            end else begin
-                $display("Test passed %d", i);
-            end
+		end
+	endtask
+
+	task vecVerify;
+		input	[$clog2(`VEC)-1:0]	i;
+		begin
+			#(0.1*1000/`CLKFREQ);
+			if (o_data_s	!= vo_data_s[i]) begin $display("[Idx: %3d] Mismatched o_data_s", i); end
+			if (o_carry		!= vo_carry[i]) begin $display("[Idx: %3d] Mismatched o_carry", i); end
+			if ((o_data_s != vo_data_s[i]) || (o_carry != vo_carry[i])) begin err++; end
+			#(0.9*1000/`CLKFREQ);
 		end
 	endtask
 
@@ -107,8 +116,8 @@ module carry_lookahead_adder_tb;
 		init();
 		
 		for (i=0; i<`SIMCYCLE; i++) begin
-			vectest(i);
-			@(posedge i_clk);
+			vecInsert(i);
+			vecVerify(i);	
 		end
 
 		repeat(2) @(posedge i_clk);

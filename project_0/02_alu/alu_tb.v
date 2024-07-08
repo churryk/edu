@@ -17,6 +17,9 @@ module alu_tb;
 	reg						i_clk;
 
 	alu
+	#(
+		.BIT		(`BIT)
+	)
 	u_alu
 	(
 		.o_data_y	(o_data_y	),

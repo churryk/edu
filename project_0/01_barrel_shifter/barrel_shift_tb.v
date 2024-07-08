@@ -11,6 +11,7 @@ module barrel_shift_tb;
 // ==================================================================
 	wire	[`BIT-1:0]			o_data;
 	wire	[`BIT-1:0]			o_data_compare;
+	wire	[`BIT-1:0]			o_data_mux_right;
 	reg		[`BIT-1:0]			i_data;
 	reg							sel_left;
 	reg		[$clog2(`BIT)-1:0]	i_shifter;
@@ -40,6 +41,17 @@ module barrel_shift_tb;
 		.i_shifter	(i_shifter		)
 	);
 
+	barrel_shift_mux
+	#(
+		.BIT		(`BIT)
+	)
+	u_barrel_shift_mux
+	(
+		.o_data		(o_data_mux 	),
+		.i_data		(i_data			),
+		.i_shifter	(i_shifter		)
+	);
+	assign o_data_mux = sel_left ? 'h0 : o_data_mux;
 // ==================================================================
 // Clock
 // ==================================================================
