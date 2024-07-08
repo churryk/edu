@@ -150,14 +150,16 @@ module carry_lookahead_adder_tb;
 		.i_carry	(i_carry     	)
 	);
 
-	reg		[`BIT-1:0]	vo_data		[0:`VEC-1];
+	reg		[`BIT:0]	test_vec	[0:`VEC-1];
+	reg		[`BIT:0]	vo_data_s	[0:`VEC-1];
 	reg			vo_carry	[0:`VEC-1];
-	reg		[`BIT-1:0]	vi_data_a	[0:`VEC-1];
-	reg		[`BIT-1:0]	vi_data_b	[0:`VEC-1];
+	reg		[`BIT:0]	vi_data_a	[0:`VEC-1];
+	reg		[`BIT:0]	vi_data_b	[0:`VEC-1];
 	reg			vi_carry	[0:`VEC-1];
 
 	initial begin
-		$readmemb("./vec/vo_data.vec",		vo_data);
+		$readmemb("./test_vec.py",		test_vec);
+		$readmemb("./vec/vo_data.vec",		vo_data_s);
 		$readmemb("./vec/vo_carry.vec",		vo_carry);
 		$readmemb("./vec/vi_data_a.vec",	vi_data_a);
 		$readmemb("./vec/vi_data_b.vec",	vi_data_b);

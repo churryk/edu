@@ -1,1 +1,13 @@
+ERROR: carry_lookahead_adder_tb.v:55: $readmemb(./test_vec.py): Invalid input character: #
+ERROR: carry_lookahead_adder_tb.v:56: $readmemb: Unable to open ./vec_test/o_data.vec for reading.
 VCD info: dumpfile ./vcd/carry_lookahead_adder.vcd opened for output.
+Test passed  0
+Test passed  1
+Test passed  2
+Test passed  3
+Test passed  4
+Test passed  5
+Test passed  6
+Test passed  7
+Test passed  8
+Test passed  9
